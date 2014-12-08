@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+ <url>
+  <loc>http://djsagarahire.github.io/2014/index.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/archive.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/categories/index.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/categories/mathjax.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/categories/test.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/galleries/index.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/index.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/listings/index.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+ <url>
+  <loc>http://djsagarahire.github.io/posts/test-post.html</loc>
+  <lastmod>2014-12-08</lastmod>
+ </url>
+</urlset>
