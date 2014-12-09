@@ -1,6 +1,6 @@
 .. title: About
 .. slug: about
-.. date: 2014-12-09 08:04:35 UTC+05:30
+.. date: 2014-12-09 18:00:00 UTC+05:30
 .. tags: mathjax, page, misc
 .. link: 
 .. description: 
@@ -11,7 +11,7 @@ About The Site
 
 Hello readers! Glad to see you on My Programming Page! Here I'll put up posts about anything that I'm personally learning and/or something that I find interesting related to programming. I imagine the content of the site to be in a constant state of flux, but for now, the main types of content which I may cover on this page are as follows:
 
-1. **Python and Java Programming**: I really like programming in Python and Java, and whenever I find some interesting way to do things in either of the 2 languages, I'll be sure to share it here.
+1. **Python and Java Programming**: I really like programming in Python and Java, and whenever I find some interesting way to do things in either of the 2 languages, I'll be sure to share it here...
 
 2. **Algorithms**: Some posts about classic algorithms will definitely show up. This will include implementations and applications of various commonly-used data structures, as also algorithm paradigms like dynamic programming and divide-and-conquer.
 

@@ -1,6 +1,6 @@
 .. title: Hello World!
 .. slug: hello-world
-.. date: 2014-12-09 08:37:31 UTC+05:30
+.. date: 2014-12-09 18:00:00 UTC+05:30
 .. tags: mathjax, misc
 .. link: 
 .. description: 
