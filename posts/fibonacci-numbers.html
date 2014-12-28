@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="description" content="About the Fibonacci number sequence and how to compute it using various approaches, including a basic introduction to dynamic programming.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fibonacci Numbers | My Programming Page</title>
+
+    
+            <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/rst.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/code.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/theme.css" rel="stylesheet" type="text/css">
+
+    
+            <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+      <link rel="canonical" href="http://djsagarahire.github.io/posts/fibonacci-numbers.html">
+
+
+
+    
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    
+
+
+    
+
+    <meta name="author" content="Sagar Ahire">
+    
+        <meta name="og:title" content="Fibonacci Numbers">
+        <meta name="og:url" content="http://djsagarahire.github.io/posts/fibonacci-numbers.html">
+            <meta name="og:description" content="About the Fibonacci number sequence and how to compute it using various approaches, including a basic introduction to dynamic programming.">
+        <meta name="og:site_name" content="My Programming Page">
+        <meta name="og:type" content="article">
+
+    
+
+    
+
+
+
+</head>
+<body>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://djsagarahire.github.io/">
+
+                <span id="blog-title">My Programming Page</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                
+                <li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../stories/about.html">About</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                    
+    <li>
+    <a href="fibonacci-numbers.rst" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+        </div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav>
+
+<!-- End of Menubar -->
+
+<div class="container">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article">
+    
+    <header>
+        
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Fibonacci Numbers</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Sagar Ahire</span></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-12-28T20:35:00+05:30" itemprop="datePublished" title="Publication date">28 Dec, 2014</time></a></p>
+                <p class="commentline">
+        
+    <a href="fibonacci-numbers.html#disqus_thread" data-disqus-identifier="cache/posts/fibonacci-numbers.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="fibonacci-numbers.rst" id="sourcelink">Source</a></p>
+
+                <meta name="description" itemprop="description" content="About the Fibonacci number sequence and how to compute it using various approaches, including a basic introduction to dynamic programming.">
+        </div>
+        
+
+    </header>
+
+    <div class="e-content entry-content" itemprop="articleBody text">
+    <p>In this post, we'll examine the Fibonacci number sequence and deal with the problem of finding the <tt class="docutils literal">n</tt> th Fibonacci number. We'll examine various approaches that steadily increase in efficiency.</p>
+<!-- TEASER_END -->
+<div class="section" id="the-number-sequence">
+<h2>The Number Sequence</h2>
+<p>The Fibonacci number sequence is a rather popular sequence of numbers in which every number is the sum of the previous 2 numbers, starting from 0 and 1. Thus, the first few terms of the sequence are <span class="math">\(0, 1, 1, 2, 3, 5, 8, 13, \dots\)</span>, where, <span class="math">\(fib(0) = 0\)</span>, <span class="math">\(fib(1) = 1\)</span>, and so on. Fibonacci numbers have several applications, both in mathematics and computer science, most notably the <a class="reference external" href="http://en.wikipedia.org/wiki/Fibonacci_heap">Fibonacci Heap</a>, although they have been popularized in other places too such as -- <em>SPOILER ALERT!</em> -- <em>The Da Vinci Code</em>. You can read more about the sequence on the <a class="reference external" href="http://oeis.org/A000045">Online Encyclopedia of Integer Sequences</a>.</p>
+</div>
+<div class="section" id="computing-the-sequence-a-first-attempt">
+<h2>Computing The Sequence: A First Attempt</h2>
+<p>Given the definition of the Fibonacci number sequence, it is very easy and very tempting to write a program to compute the <tt class="docutils literal">n</tt> th Fibonacci number by simply transcribing the definition in code. What this gives is a recursive function for defining a Fibonacci number:</p>
+<pre class="code python literal-block">
+<span class="ln">1 </span><span class="k">def</span> <span class="nf">fibonacci_recursive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="ln">2 </span>
+<span class="ln">3 </span><span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ln">4 </span>    <span class="k">return</span> <span class="n">n</span>
+<span class="ln">5 </span><span class="k">else</span><span class="p">:</span>
+<span class="ln">6 </span>    <span class="k">return</span> <span class="n">fibonacci_recursive</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci_recursive</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre>
+<p>This is a fairly straightforward recursive function. Starting from some value of <tt class="docutils literal">n</tt>, the function is recursively called for smaller values of <tt class="docutils literal">n</tt> until <tt class="docutils literal">n</tt> reaches either 0 or 1, which are the base cases for the sequence, i.e. the results for these values is known and, in fact, is used for the rest of the calculations.</p>
+<p>Before we move forward, convince yourself that this function is correct, i.e. it gives the right Fibonacci number for any valid value of <tt class="docutils literal">n</tt>.</p>
+<p>However, as it turns out, the problem is not the correctness - the problem is something else entirely.</p>
+<p>Fire up a Python interpreter, loading up the function above, and evaluate the following:</p>
+<pre class="code python literal-block">
+<span class="n">fibonacci_recursive</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre>
+<p>The function keeps executing, but nothing happens. Now exit by interrupting the execution and try for a lower <tt class="docutils literal">n</tt>, say 5. The code will immediately spit out the correct output. See the problem? This function is inefficient. Not just inefficient, <em>woefully</em> inefficient. You'd think computing the 50th Fibonacci number shouldn't be too hard, but the program takes a very long time to perform the task. Before we try to optimize this, we naturally need to find out what is causing this inefficiency.</p>
+<p>Let's step through an execution of <tt class="docutils literal">fibonacci_recursive(4)</tt> and see what happens:</p>
+<pre class="code literal-block">
+<span class="ln">1 </span>fibonacci_recursive(4)
+<span class="ln">2 </span>= fibonacci_recursive(2) + fibonacci_recursive(3)
+<span class="ln">3 </span>= fibonacci_recursive(0) + fibonacci_recursive(1) + fibonacci_recursive(3)
+<span class="ln">4 </span>= 0 + 1 + fibonacci_recursive(3)
+<span class="ln">5 </span>= 1 + fibonacci_recursive(3)
+<span class="ln">6 </span>= 1 + fibonacci_recursive(1) + fibonacci_recursive(2)
+<span class="ln">7 </span>= 1 + 1 + fibonacci_recursive(0) + fibonacci_recursive(1)
+</pre>
+<p>And there's our problem.</p>
+<p>Notice how, at line 7 above, <tt class="docutils literal">fibonacci_recursive(2)</tt> resulted in calls to <tt class="docutils literal">fibonacci_recursive(1)</tt> and <tt class="docutils literal">fibonacci_recursive(0)</tt>? But we already know from a previous call (line 3 onwards) that <tt class="docutils literal">fibonacci_recursive(2)</tt> evaluates to 2! However, the program will recalculate this fact each and every time it gets a call for <tt class="docutils literal">fibonacci_recursive(2)</tt>, not knowing that it has already been calculated! Not only that, it gets even worse. For <tt class="docutils literal">fibonacci_recursive(5)</tt>, there will be 2 calls to <tt class="docutils literal">fibonacci_recursive(3)</tt>, <em>each</em> of which will lead to 2 calls to <tt class="docutils literal">fibonacci_recursive(2)</tt>, and so on. This just explodes, so that by the time 2 digit numbers are reached, the time begins to visibly show up, and for values of <tt class="docutils literal">n</tt> over 35 or so the program simply stops working in any reasonable timeframe.</p>
+<p>A quick <tt class="docutils literal">%timeit</tt> check using IPython <a class="footnote-reference" href="fibonacci-numbers.html#id2" id="id1">[1]</a> confirms this effect of roughly doubling of function calls (your values may vary slightly):</p>
+<pre class="code literal-block">
+%timeit fibonacci_recursive(5)
+100000 loops, best of 3: 9.05 us per loop
+</pre>
+<pre class="code literal-block">
+%timeit fibonacci_recursive(6)
+100000 loops, best of 3: 15.2 us per loop
+</pre>
+<p>This is a common problem when writing recursive programs - reduplication of work. One needs to check very thoroughly that there is no possibility for the same function call to occur more than once before writing recursive code. However, a good solution that works in many cases is coming up next.</p>
+</div>
+<div class="section" id="iterative-approach-using-dynamic-programming">
+<h2>Iterative Approach using Dynamic Programming</h2>
+<p>We have seen that <tt class="docutils literal">fibonacci_recursive(2)</tt> was calculated even though its value was already known previously during the execution of the program. The problem was that even though the value was calculated, it was not stored, due to which the program had to recalculate the value for each invocation. This presents a solution: store the values as we obtain them and use them to calculate higher values. This is the essence of the algorithmic approach known as <strong>Dynamic Programming</strong>.</p>
+<p>Dynamic Programming mainly involves <em>storing the solution to smaller problems and using them to calculate the solution to a larger problem</em>. For the Fibonacci number sequence, this implies computing of the <tt class="docutils literal">n</tt> th Fibonacci number using the Fibonacci sequence upto <tt class="docutils literal"><span class="pre">n-1</span></tt>, which has been stored previously. Since we already know the values for <tt class="docutils literal">n = 0</tt> and <tt class="docutils literal">n = 1</tt>, we can use this approach to build up a store of Fibonacci numbers for progressively higher values until we reach the <tt class="docutils literal">n</tt> th number using an iterative approach. This is called a <em>bottom-up</em> approach as we start from the lowest values of <tt class="docutils literal">n</tt> and move upwards, unlike the previous recursive approach, which is a <em>top-down apprach</em>.</p>
+<p>This iterative approach can be coded as follows.</p>
+<pre class="code python literal-block">
+<span class="ln"> 1 </span><span class="n">fib</span> <span class="o">=</span> <span class="p">{}</span>            <span class="c"># Storage using dictionary</span>
+<span class="ln"> 2 </span>
+<span class="ln"> 3 </span><span class="c"># Base values</span>
+<span class="ln"> 4 </span><span class="n">fib</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ln"> 5 </span><span class="n">fib</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="ln"> 6 </span>
+<span class="ln"> 7 </span><span class="c"># Iteration upto 'n'</span>
+<span class="ln"> 8 </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="ln"> 9 </span>    <span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="ln">10 </span>
+<span class="ln">11 </span><span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</pre>
+<p>Again, we simply use the definition of Fibonacci numbers, but avoid repetition of work as our loop only moves forwards, using the precomputed values. The time savings clearly show up in <tt class="docutils literal">%timeit</tt> profiling.</p>
+<pre class="code literal-block">
+%timeit fibonacci_recursive(20)
+100 loops, best of 3: 13.4 ms per loop
+</pre>
+<pre class="code literal-block">
+%timeit fibonacci_iterative(20)
+10000 loops, best of 3: 20.4 us per loop
+</pre>
+<p>The iterative version is about a thousand times faster at <tt class="docutils literal">n = 20</tt>, and it keeps getting better time savings due to the exponential increase in the recursive function with a linear increase in <tt class="docutils literal">n</tt>. In big-O notation, the time complexity of the recursive function is <span class="math">\(O(2^n)\)</span>, while for the recursive function, the time complexity is <span class="math">\(O(n)\)</span>.</p>
+<p>While we have saved on time in this iterative function, it has only come at the cost of an extra space requirement for storing all the previous numbers in the Fibonacci sequence. Can we do something about this? Turns out that with just a little bit of thinking, we can!</p>
+</div>
+<div class="section" id="efficient-iterative-version">
+<h2>Efficient Iterative Version</h2>
+<p>In the iterative implementation, we have stored all the Fibonacci numbers from the 0th to the <tt class="docutils literal"><span class="pre">n-1</span></tt> th number in order to calculate the <tt class="docutils literal">n</tt> th Fibonacci number. However, is this really necessary? To check this, we go back to the key computation performed in the iterative function:</p>
+<pre class="code python literal-block">
+<span class="ln"> 9 </span><span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fib</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre>
+<p>Here, all we are using is the last 2 Fibonacci numbers that were computed. What if we store only those two and keep updating them as we compute the later terms of the Fibonacci sequence? That is exactly what we set out to do next. Instead of a full-blown array/mapping of all the Fibonacci numbers, our storage drops down to merely 3 variables - the current Fibonacci number being computed, and the last 2 numbers already computed, yielding great space savings!</p>
+<p>This can be done as follows:</p>
+<pre class="code python literal-block">
+<span class="ln"> 1 </span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ln"> 2 </span>    <span class="k">return</span> <span class="n">n</span>
+<span class="ln"> 3 </span>
+<span class="ln"> 4 </span><span class="n">fib_prev</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ln"> 5 </span><span class="n">fib_curr</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="ln"> 6 </span>
+<span class="ln"> 7 </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="ln"> 8 </span>    <span class="n">fib_temp</span> <span class="o">=</span> <span class="n">fib_prev</span> <span class="o">+</span> <span class="n">fib_curr</span>
+<span class="ln"> 9 </span>    <span class="n">fib_prev</span> <span class="o">=</span> <span class="n">fib_curr</span>
+<span class="ln">10 </span>    <span class="n">fib_curr</span> <span class="o">=</span> <span class="n">fib_temp</span>
+<span class="ln">11 </span>
+<span class="ln">12 </span><span class="k">return</span> <span class="n">fib_curr</span>
+</pre>
+<p>Here, <tt class="docutils literal">fib_temp</tt> is used to calculate the new Fibonacci number using <tt class="docutils literal">fib_curr</tt> and <tt class="docutils literal">fib_prev</tt>, and then <tt class="docutils literal">fib_prev</tt> and <tt class="docutils literal">fib_curr</tt> are updated. The swaps may be slightly tricky to get right on the first try if you haven't used good old pen-and-paper to ascertain their order, but it's rather easy nevertheless to reach a program that is efficient with respect to both time and space if some thought is put in.</p>
+<p>It turns out that it is possible to bring the time complexity down to even <span class="math">\(O(\log{n})\)</span> using Mathematical knowledge of Fibonacci numbers, but that goes beyond the simplicity of using just the basic definition to optimize the program to reach good efficiency levels. You can read more about this <a class="reference external" href="http://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form">here</a>.</p>
+<p><strong>Code</strong></p>
+<p>The code in this post is available on the <a class="reference external" href="https://github.com/DJSagarAhire/blog-code/tree/master/001">github repository</a> accompanying the blog, including very few unit tests (<tt class="docutils literal">n</tt> assumed non-negative).</p>
+<p><strong>Exercise</strong></p>
+<p>Write a program to generate the <tt class="docutils literal">n</tt> th row of the Pascal Triangle. Try to make it as efficient as possible.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="fibonacci-numbers.html#id1">[1]</a></td>
+<td>IPython <tt class="docutils literal">%timeit</tt> magic: <a class="reference external" href="http://ipython.org/ipython-doc/dev/interactive/tutorial.html#magic-functions">http://ipython.org/ipython-doc/dev/interactive/tutorial.html#magic-functions</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+    <aside class="postpromonav">
+    <nav>
+    
+        <ul itemprop="keywords" class="tags">
+           <li><a class="tag p-category" href="../categories/algorithm.html" rel="tag">algorithm</a></li>
+           <li><a class="tag p-category" href="../categories/dynamic-programming.html" rel="tag">dynamic-programming</a></li>
+           <li><a class="tag p-category" href="../categories/mathjax.html" rel="tag">mathjax</a></li>
+           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+        </ul>
+
+    
+        <ul class="pager">
+            <li class="previous">
+                <a href="hello-world.html" rel="prev" title="Hello World!">Previous post</a>
+            </li>
+        </ul>
+
+    </nav>
+    </aside>
+        <section class="comments">
+        <h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="djsagarahire",
+            disqus_url="http://djsagarahire.github.io/posts/fibonacci-numbers.html",
+        disqus_title="Fibonacci Numbers",
+        disqus_identifier="cache/posts/fibonacci-numbers.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="//disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section>
+    
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});</script>
+        <script src="../assets/js/mathjax.js"></script>
+
+</article>
+
+        
+       <script>var disqus_shortname="djsagarahire";(function(){var a=document.createElement("script");a.async=true;a.src="//"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+
+
+
+        </div>
+        <!--End of body content-->
+
+        <footer>
+            Contents © 2014         <a href="mailto:djsagarahire@gmail.com">Sagar Ahire</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+    </div>
+</div>
+
+
+            <script src="../assets/js/jquery.min.js"></script>
+            <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/jquery.colorbox-min.js"></script>
+    
+<!-- Social buttons -->
+<div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
+<a class="addthis_button_more">Share</a>
+<ul>
+<li>
+<a class="addthis_button_facebook"></a>
+</li>
+<li>
+<a class="addthis_button_google_plusone_share"></a>
+</li>
+<li>
+<a class="addthis_button_linkedin"></a>
+</li>
+<li>
+<a class="addthis_button_twitter"></a>
+</li>
+</ul>
+</div>
+<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
+<!-- End of social buttons -->
+
+
+    <script>jQuery("a.image-reference").colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script>
+    
+
+
+</body>
+</html>
