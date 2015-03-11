@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Catalan Numbers | My Programming Page</title>
+
+    
+            <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/rst.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/code.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/theme.css" rel="stylesheet" type="text/css">
+
+    
+            <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+      <link rel="canonical" href="http://djsagarahire.github.io/posts/catalan-numbers.html">
+
+
+
+    
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
+
+
+
+    
+
+    <meta name="author" content="Sagar Ahire">
+    
+        <meta name="og:title" content="Catalan Numbers">
+        <meta name="og:url" content="http://djsagarahire.github.io/posts/catalan-numbers.html">
+            <meta name="og:description" content="In this post, we will examine the Catalan number sequence and have a look at some of its vast applications in computer science and combinatorics in general. Then we will figure out an efficient way to">
+        <meta name="og:site_name" content="My Programming Page">
+        <meta name="og:type" content="article">
+
+    
+
+    
+
+
+
+</head>
+<body>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://djsagarahire.github.io/">
+
+                <span id="blog-title">My Programming Page</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                
+                <li>
+<a href="../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../stories/about.html">About</a>
+                </li>
+<li>
+<a href="../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                    
+    <li>
+    <a href="catalan-numbers.rst" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+        </div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav>
+
+<!-- End of Menubar -->
+
+<div class="container">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article">
+    
+    <header>
+        
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Catalan Numbers</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Sagar Ahire</span></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-11T20:00:00+05:30" itemprop="datePublished" title="Publication date">11 Mar, 2015</time></a></p>
+                <p class="commentline">
+        
+    <a href="catalan-numbers.html#disqus_thread" data-disqus-identifier="cache/posts/catalan-numbers.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="catalan-numbers.rst" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header>
+
+    <div class="e-content entry-content" itemprop="articleBody text">
+    <p>In this post, we will examine the Catalan number sequence and have a look at some of its vast applications in computer science and combinatorics in general. Then we will figure out an efficient way to compute the <tt class="docutils literal">n</tt> th Catalan number.</p>
+<!-- TEASER_END -->
+<div class="section" id="the-number-sequence">
+<h2>The Number Sequence</h2>
+<p>The Catalan number sequence is given by the following formula:</p>
+<div class="math">
+\begin{equation*}
+C_n = \frac{1}{n+1} \binom{2n}{n}
+\end{equation*}
+</div>
+<p>Some of the first few terms in the sequence are as <span class="math">\(1, 1, 2, 5, 14, 42, 132, 429, \dots\)</span>. As you can see, this sequence grows exponentially.</p>
+<p>While the formula itself may seem contrived, the Catalan number sequence actually yields very easily to recursively-defined objects (which are found all over the place in computer science thanks to ubiquitous applications of discrete data structures). This is because the numbers satisfy the following recurrence:</p>
+<div class="math">
+\begin{equation*}
+C_{n+1} = \sum_{i=0}^{n} C_i C_{n-i}
+\end{equation*}
+</div>
+<p>As a result, the Catalan number sequence can be interpreted as the number of ways to recursively create a structure as follows:</p>
+<ul class="simple">
+<li>Take <tt class="docutils literal">n</tt> elements, ordered as <span class="math">\(1, 2, \dots, n\)</span>.</li>
+<li>Choose an element <tt class="docutils literal">e</tt> as a pivot.</li>
+<li>Separate the <tt class="docutils literal">n</tt> elements into two parts using <tt class="docutils literal">e</tt>.</li>
+<li>Perform the procedure recursively on the two parts.</li>
+<li>Join the two parts together with <tt class="docutils literal">e</tt> in the middle.</li>
+</ul>
+<p>This leads to a vast number of applications of the Catalan number sequence in various areas of computer science and combinatorics in general. You can read a nice list on the <a class="reference external" href="http://oeis.org/A000108">Online Encyclopedia of Integer Sequences</a>, but be warned:</p>
+<blockquote>
+"This is probably the longest entry in the OEIS, and rightly so."</blockquote>
+<p>We now have a short look at some of the applications below so that you don't have to go through the entire thing (I haven't either!):</p>
+<p>1: <strong>Pairs of Balanced Parentheses</strong></p>
+<p>The Catalan number <span class="math">\(C_n\)</span> gives the number of ways in which <tt class="docutils literal">n</tt> balanced pairs of parentheses can be arranged. For example, for <tt class="docutils literal">n = 3</tt>, the 5 arrangements are given by <span class="math">\(()()(), ()(()), (())(), ((())), (()())\)</span>.</p>
+<p>2: <strong>Dyck Paths</strong></p>
+<p>A <em>Dyck Path</em> in a matrix is a path that starts at <span class="math">\((0, 0)\)</span> and ends at <span class="math">\((n, n)\)</span> without going past the diagonal of the matrix (touching the diagonal is allowed). All the possible such paths in a matrix where <span class="math">\(n = 4\)</span> are illustrated in the following figure (from <a class="reference external" href="http://mathworld.wolfram.com/DyckPath.html">Wolfram</a>):</p>
+<img alt="http://mathworld.wolfram.com/images/eps-gif/StaircaseWalkDiagonal_950.gif" src="http://mathworld.wolfram.com/images/eps-gif/StaircaseWalkDiagonal_950.gif">
+<p>As you can observe, this is <span class="math">\(C_4\)</span>, the fourth Catalan number.</p>
+<p>3: <strong>Binary Search Trees</strong></p>
+<p>The Catalan number <span class="math">\(C_n\)</span> also gives the number of possible binary search trees having <tt class="docutils literal">n</tt> items. As an exercise, construct the 5 possible binary search trees that can be constructed using the items <span class="math">\(1, 2, 3\)</span>.</p>
+</div>
+<div class="section" id="computing-the-sequence-a-first-attempt">
+<h2>Computing The Sequence: A First Attempt</h2>
+<p>Just like <a class="reference external" href="http://djsagarahire.github.io/posts/fibonacci-numbers.html">Fibonacci numbers</a> before, we can make an initial attempt to compute the <tt class="docutils literal">n</tt> th Catalan number by directly converting the definition into a recursive function. However, just like Fibonacci numbers, we will soon realize that this is a highly inefficient approach and can be improved upon...</p>
+<pre class="code python literal-block">
+<span class="ln"> 1 </span><span class="k">def</span> <span class="nf">catalan_recursive</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="ln"> 2 </span>
+<span class="ln"> 3 </span><span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="ln"> 4 </span>    <span class="k">return</span> <span class="mi">1</span>
+<span class="ln"> 5 </span>
+<span class="ln"> 6 </span><span class="n">res</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ln"> 7 </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="ln"> 8 </span>    <span class="n">res</span> <span class="o">+=</span> <span class="n">catalan_recursive</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">catalan_recursive</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="ln"> 9 </span>
+<span class="ln">10 </span><span class="k">return</span> <span class="n">res</span>
+</pre>
+<p>The code is a rather straightforward implementation of the definition. Unfortunately, it is also very slow, as the following might suggest:</p>
+<pre class="code literal-block">
+%timeit catalan_recursive(12)
+1 loops, best of 3: 571 ms per loop
+</pre>
+<p>Computing merely the 12th Catalan number takes over half a second, and this time keeps going up dangerously fast as the numbers increase. This is even more so than Fibonacci numbers, because while the <tt class="docutils literal">n</tt> th Fibonacci number requires only the <tt class="docutils literal"><span class="pre">n-1</span></tt> and <tt class="docutils literal"><span class="pre">n-2</span></tt> th Fibonacci numbers, the <tt class="docutils literal">n</tt> th Catalan number requires <em>all</em> Catalan numbers from 0 to <tt class="docutils literal"><span class="pre">n-1</span></tt> !</p>
+<p>An examination of the code above reveals that all these required Catalan numbers are recomputed again and again for every single call to the <tt class="docutils literal">catalan_recursive()</tt> function, which is incredibly wasteful. Just like Fibonacci, we may need to optimize the function by computing these values beforehand and storing them separately.</p>
+</div>
+<div class="section" id="dynamic-programming">
+<h2>Dynamic Programming</h2>
+<p>We now make use of Dynamic Programming's idea of using a cache of previously computed values to help in the future execution of the program. This is made possible by observing that once the Catalan numbers from 0 to <tt class="docutils literal"><span class="pre">n-1</span></tt> are calculated, the <tt class="docutils literal">n</tt> th Catalan number can be calculated using these values. Thus it makes sense to calculate all Catalan numbers in an increasing order till we reach <tt class="docutils literal">n</tt> . This is easily possible by looping over 0 to <tt class="docutils literal">n</tt> as follows, computing a Catalan number in an iteration of the loop:</p>
+<pre class="code python literal-block">
+<span class="ln"> 1 </span><span class="k">def</span> <span class="nf">catalan_iterative</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="ln"> 2 </span>
+<span class="ln"> 3 </span><span class="n">cat</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ln"> 4 </span><span class="n">cat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="ln"> 5 </span>
+<span class="ln"> 6 </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="ln"> 7 </span>    <span class="n">cat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ln"> 8 </span>    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+<span class="ln"> 9 </span>        <span class="n">cat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">cat</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="ln">10 </span>
+<span class="ln">11 </span><span class="k">return</span> <span class="n">cat</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</pre>
+<p>As no repeated computations are performed here, this code runs extremely fast compared to the previous inefficient direct recursive implementation. For example, even the 500th Catalan number can be computed in under a quarter of a second:</p>
+<pre class="code literal-block">
+%timeit catalan_iterative(500)
+1 loops, best of 3: 241 ms per loop
+</pre>
+<p>However, taking algorithmic complexity into account, this code is still slower than, say, Fibonacci, which was linear in the size of the input <span class="math">\(n\)</span>, i.e. it was a <span class="math">\(O(n)\)</span> algorithm. However, <tt class="docutils literal">catalan_iterative()</tt> actually takes quadratic time in its input, i.e. it is an <span class="math">\(O(n^2)\)</span> algorithm. This is because computing the <tt class="docutils literal">n</tt> th Catalan number requires keeping a running product of all previous <tt class="docutils literal">n</tt> Catalan numbers, which takes <span class="math">\(O(n)\)</span> time. However, all the previous Catalan numbers have been computed in a similar way, which means there are <span class="math">\(n\)</span> operations requiring <span class="math">\(O(n)\)</span> time each, totalling to <span class="math">\(O(n^2)\)</span> time.</p>
+<p>Can we do better? Turns out we can, but it requires some additional knowledge of Catalan numbers.</p>
+</div>
+<div class="section" id="product-method">
+<h2>Product Method</h2>
+<p>While the definition of Catalan numbers that ends up being useful in several applications is inherently recursive in nature, there actually exists a closed-form formula to find the <span class="math">\(n\)</span> th Catalan number that is rather neat in its simplicity. It is given as a product of fractions, as follows:</p>
+<div class="math">
+\begin{equation*}
+C_{n} = \prod_{k=2}^{n} \frac{n+k}{k}
+\end{equation*}
+</div>
+<p>This formula allows for an extremely simple and elegant solution that runs in only <span class="math">\(O(n)\)</span> time!</p>
+<pre class="code python literal-block">
+<span class="ln">1 </span><span class="k">def</span> <span class="nf">catalan_product</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="ln">2 </span>
+<span class="ln">3 </span><span class="n">res</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="ln">4 </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+<span class="ln">5 </span>    <span class="n">res</span> <span class="o">*=</span> <span class="p">((</span><span class="n">n</span><span class="o">+</span><span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span>
+<span class="ln">6 </span>
+<span class="ln">7 </span><span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre>
+<p>This is blazingly fast as even the 500th Catalan number is computed in a manner of microseconds! We will usually not need to go much further than 500, because this is what the 500th Catalan number looks like: 539497486917039541523668013532875950744221976926982410442251334092448206102518802405822724731244098680372472697985449906977694838252719562184161888508030810946145210118969919796252331316942596673432265927842786392407044486912076697303449352167645593722354161161400821904867145146775262542096760832.</p>
+<p>Yeah, it's <em>that</em> big.</p>
+<p><strong>Code</strong></p>
+<p>The code in this post is available on the <a class="reference external" href="https://github.com/DJSagarAhire/blog-code/tree/master/002">github repository</a> accompanying the blog.</p>
+</div>
+    </div>
+    <aside class="postpromonav">
+    <nav>
+    
+        <ul itemprop="keywords" class="tags">
+           <li><a class="tag p-category" href="../categories/algorithm.html" rel="tag">algorithm</a></li>
+           <li><a class="tag p-category" href="../categories/dynamic-programming.html" rel="tag">dynamic-programming</a></li>
+           <li><a class="tag p-category" href="../categories/mathjax.html" rel="tag">mathjax</a></li>
+           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+        </ul>
+
+    
+        <ul class="pager">
+            <li class="previous">
+                <a href="fibonacci-numbers.html" rel="prev" title="Fibonacci Numbers">Previous post</a>
+            </li>
+        </ul>
+
+    </nav>
+    </aside>
+        <section class="comments">
+        <h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="djsagarahire",
+            disqus_url="http://djsagarahire.github.io/posts/catalan-numbers.html",
+        disqus_title="Catalan Numbers",
+        disqus_identifier="cache/posts/catalan-numbers.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="//disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section>
+    
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});</script>
+        <script src="../assets/js/mathjax.js"></script>
+
+</article>
+
+        
+       <script>var disqus_shortname="djsagarahire";(function(){var a=document.createElement("script");a.async=true;a.src="//"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+
+
+
+        </div>
+        <!--End of body content-->
+
+        <footer>
+            Contents © 2015         <a href="mailto:djsagarahire@gmail.com">Sagar Ahire</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+    </div>
+</div>
+
+
+            <script src="../assets/js/jquery.min.js"></script>
+            <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/jquery.colorbox-min.js"></script>
+    
+
+    <script>jQuery("a.image-reference").colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script>
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58151563-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">stLight.options({publisher: "cc28ec22-596f-486d-be72-e8af3d2cce29", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>
+var options={ "publisher": "cc28ec22-596f-486d-be72-e8af3d2cce29", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["facebook", "twitter", "googleplus", "linkedin", "reddit", "pocket", "email", "sharethis"]}};
+var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+</script>
+
+
+</body>
+</html>
