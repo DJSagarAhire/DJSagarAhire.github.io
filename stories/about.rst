@@ -9,7 +9,7 @@
 About The Site
 ---------------
 
-Hello readers! Glad to see you on My Programming Page! Here I'll put up posts about anything that I'm personally learning and/or something that I find interesting related to programming. I imagine the content of the site to be in a constant state of flux, but for now, the main types of content which I may cover on this page are as follows:
+Hello readers! Glad to see you on *Sagar on Programming*! Here I'll put up posts about anything that I'm personally learning and/or something that I find interesting related to programming. I imagine the content of the site to be in a constant state of flux, but for now, the main types of content which I may cover on this page are as follows:
 
 1. **Python and Java Programming**: I really like programming in Python and Java, and whenever I find some interesting way to do things in either of the 2 languages, I'll be sure to share it here...
 
